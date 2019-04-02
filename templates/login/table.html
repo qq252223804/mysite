@@ -1,0 +1,44 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ajax获取列表数据</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.4.0/jquery.js"></script>
+</head>
+<body>
+<table class="table table-bordered" id='table'>
+    <tr>
+        <th>名字</th>
+        <th>开始时间</th>
+        <th>是否真实</th>
+        <th>设备</th>
+    </tr>
+ </table>
+    <script>
+        $(function () {
+            $.ajax({
+                url:'{% static 'json/data.json' %}',
+                type:'get',
+                dataType:'json',
+                success:function(data){
+                $.each(data.data,function(index,item){
+                    item.is_true=parseInt(item.is_true)===0? '否':'是';
+                    console.log(item.is_true);
+                    var arr=item.device.split(":");
+                    item.device=arr[1];
+                    console.log(item.device);
+                    var tr;
+                    tr='<td>'+item.name+'</td>'+'<td>'+item.startTime+'</td>'+'<td>'+item.is_true+'</td>'+'<td>'+item.device+'</td>';
+                    $("#table").append('<tr>'+tr+'</tr>')
+
+                })
+            }
+            })
+            
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>获取账号密码</title>
+
+    <script src="https://cdn.bootcss.com/jquery/1.12.1/jquery.js"></script>
+    <script>
+        $(function () {
+            $('.action').click(function () {
+                $.get('{% url 'login:json2' %}',function(hh){
+                    $('#user').html(hh['a']);
+                    $('#pwd').html(hh['b']);
+            })
+            })
+        })
+    </script>>
+
+</head>
+<body>
+    <button class="action">获取登录的账号密码</button>
+
+        <h2>获取的账号密码如下：</h2>
+        <h3 id="user">账号：点击上方</h3>
+        <h3 id="pwd">密码：点击上方</h3>
+</body>
+</html>

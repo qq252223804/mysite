@@ -1,0 +1,26 @@
+{
+  "status": 0,
+    "data": [
+        {
+
+            "name": "天王盖地虎",
+            "startTime": "2017-03-02 00:00",
+            "is_true":"0",
+            "device": "SM-C9000:samsung"
+        },
+        {
+
+            "name": "宝塔镇河妖",
+            "startTime": "2017-03-02 00:00"  ,
+             "is_true":"1",
+             "device": "SM705:smartisan"
+        },
+        {
+
+            "name": "锄禾日当午",
+            "startTime": "2017-03-02 00:00" ,
+             "is_true":"1" ,
+                 "device": "EVA-AL00:HUAWEI"
+         }
+    ]
+}

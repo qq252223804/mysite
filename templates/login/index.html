@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+
+    <h1>用户输入：</h1>
+
+    <form action="{% url 'login:index' %}" method="post">
+        {% csrf_token %}   <!--加入这行 -->
+        用户名：<input type="text" name="username" id="name"/><br />
+        密码：<input type="password" name="password" /><br />
+
+        {# document.querySelector().value获取指定元素的内容       #}
+{#        <button onclick="myFunction1(document.querySelector('input[name=username]').value)">提交</button>#}
+​        <button onclick="myFunction()">提交</button>
+{#                               加入了message插件#}
+        {% if message %}
+        <div class="alert alert-warning">{{ message }}
+        </div>
+        {% endif %}
+
+    </form>
+
+{#    <script>#}
+        {#function myFunction1(username) {#}
+        {#    alert(username+"提交成功")}#}
+{##}
+{#        function myFunction(){#}
+{#            var a=document.getElementById("name").value;#}
+{#        alert(a+"提交成功");#}
+{#}#}
+{#    </script>#}
+
+    <h1>主页：</h1>
+        <table border="1">
+            <thead>
+                <tr>用户名</tr>
+                <tr>密码</tr>
+            </thead>
+            <tbody>
+                {% for item in data %}
+                <tr>
+                    <td>{{ item.user }}</td>
+                    <td>{{ item.pwd }}</td>
+                </tr>
+                {% endfor %}
+            <ul class="nav navbar-nav navbar-right">
+              {% if request.session.is_login %}
+                  <li><a href="#">当前在线：{{ request.session.user_name }}</a></li>
+
+                  <li><a href="{% url 'login:logout' %}">登出</a></li>
+              {% endif %}
+
+            </ul>
+            </tbody>
+        </table>
+
+
+
+{#    <script src="/static/js/jquery-3.3.1.min.js"></script>#}
