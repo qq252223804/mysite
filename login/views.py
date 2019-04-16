@@ -157,10 +157,20 @@ def demo(request):
 def ajax(request):
     if request.method =='POST':
         print(request.POST)
-        data={'status':0000,'msg':'请求成功','data':[11,22,33,4555,55]}
-        # print(type(JsonResponse(data)))
-        # print(type(json.dumps(data)))
-        return JsonResponse(data)
+        na=request.POST.get('data')
+        # print(na)
+        data = {'status': 0000, 'msg': '请求成功', 'data': [11, 22, 33, 4555, 55]}
+        data1={'status': 1000, 'msg': '数据错误', 'data':'null'}
+        if na=='0000':
+            print('ok')
+            return JsonResponse(data)
+        else:
+            return JsonResponse(data1)
+
+        # data={'status':0000,'msg':'请求成功','data':[11,22,33,4555,55]}
+        # # print(type(JsonResponse(data)))
+        # # print(type(json.dumps(data)))
+        # return JsonResponse(data)
 
     else:
         return render(request,'login/ajax.html')
