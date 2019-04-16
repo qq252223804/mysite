@@ -33,9 +33,13 @@
                     var tr;
                     tr='<td>'+item.name+'</td>'+'<td>'+item.startTime+'</td>'+'<td>'+item.is_true+'</td>'+'<td>'+item.device+'</td>';
                     $("#table").append('<tr>'+tr+'</tr>')
-
+         
                 })
-            }
+            },
+                error:function () {
+                    console.log('failed')
+
+                }
             })
             
         })

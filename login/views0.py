@@ -3,7 +3,8 @@ from django.shortcuts import render,redirect,get_object_or_404
 from .models import *  # 导入models文件
 
 from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
-
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 
 # import json
@@ -51,29 +52,26 @@ def login(request):
 
     return render(request,'login/login.html')
 
-
-def index(request):
+@csrf_exempt
+def submit_check(request):
 
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        message = "所有字段都必须填写"
-        # 确保用户名和密码都不为空
+        message="所有字段都必须填写"
         if username and password:
             # 将账号去除空格 并传给 username变量
-
             try:
-
                 # get(user)为数据库的字段变量  user是一条查询信息
                 userinfo = get_object_or_404(UserInfo, user=username)
                 # userinfo =UserInfo.objects.get(user=username)
 
                 # 如果用户名相等则提示已存在 否则进行存储
                 if userinfo.user==username:
-                    message ='用户名已存在'
+                    message = '该用户已存在'
                 else:
                     UserInfo.objects.create(user=username, pwd=password)
-                    message = '用户提交成功'
+                    message='用户提交成功'
             except:
                 UserInfo.objects.create(user=username, pwd=password)
                 message = '用户提交成功'
@@ -105,4 +103,69 @@ def json2(request):
 
 def table(request):
     return render(request,'login/table.html')
+
+
+
+
+# @csrf_exempt
+def check(request):
+
+    # if request.method == 'POST':
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    ret = {'code': None, 'msg': None}
+    # if username and password:
+    #         print('ok')
+            # 将账号去除空格 并传给 username变量
+    try:
+        userinfo = get_object_or_404(UserInfo, user=username)
+        print('ok')
+        if userinfo.user==username:
+                print('ok')
+                if userinfo.pwd==password:
+
+                    ret['code']=2000
+                    print(ret)
+                    return HttpResponse(json.dumps(ret))
+
+                    # ret['msg']='登录成功'
+
+                else:
+                    ret['code'] = 2001
+
+                    # ret['msg'] = '密码错误'
+
+        else:
+            ret['code'] = 2009
+            print(ret)
+            # ret['msg'] = '用户名不存在'
+
+    except:
+        pass
+
+
+    return HttpResponse(json.dumps(ret))
+
+    # return HttpResponse(json.dumps(ret))
+    # return render(request, 'login/demo.html')
+
+def demo(request):
+    return render(request, 'login/demo.html/')
+
+
+@csrf_exempt
+def ajax(request):
+    if request.method =='POST':
+        print(request.POST)
+        data={'status':0000,'msg':'请求成功','data':[11,22,33,4555,55]}
+        # print(type(JsonResponse(data)))
+        # print(type(json.dumps(data)))
+        return JsonResponse(data)
+
+    else:
+        return render(request,'login/ajax.html')
+
+
+
+
 

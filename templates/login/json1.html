@@ -8,7 +8,8 @@
     <script>
         $(function () {
             $('.action').click(function () {
-                $.get('{% url 'login:json2' %}',function(hh){
+                $.get('{% url 'login:json2' %}',
+                    function(hh){
                     $('#user').html(hh['a']);
                     $('#pwd').html(hh['b']);
             })

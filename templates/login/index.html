@@ -5,36 +5,28 @@
     <title>首页</title>
 </head>
 <body>
-
     <h1>用户输入：</h1>
-
-    <form action="{% url 'login:index' %}" method="post">
+    <form action="{% url 'login:submit_check' %}" method="post">
         {% csrf_token %}   <!--加入这行 -->
-        用户名：<input type="text" name="username" id="name"/><br />
-        密码：<input type="password" name="password" /><br />
-
-        {# document.querySelector().value获取指定元素的内容       #}
-{#        <button onclick="myFunction1(document.querySelector('input[name=username]').value)">提交</button>#}
+        用户名：<input type="text" name="username" id="name" placeholder="请输入名字" onblur="formcheck()" ><br />
+        密码：<input type="password"  name="password"  placeholder="请输入密码" onblur="formcheck()"><br />
 ​        <button onclick="myFunction()">提交</button>
-{#                               加入了message插件#}
+{#        <input type="submit" value="提交" id="btn">#}
+     {#加入了message插件#}
         {% if message %}
-        <div class="alert alert-warning">{{ message }}
-        </div>
+            <div class="alert alert-warning">{{ message }}
+            </div>
         {% endif %}
 
     </form>
-
+{#弹框设置#}
 {#    <script>#}
-        {#function myFunction1(username) {#}
-        {#    alert(username+"提交成功")}#}
-{##}
 {#        function myFunction(){#}
 {#            var a=document.getElementById("name").value;#}
 {#        alert(a+"提交成功");#}
-{#}#}
-{#    </script>#}
+{#   </script>#}
 
-    <h1>主页：</h1>
+    <h1>数据内容刷新页面：</h1>
         <table border="1">
             <thead>
                 <tr>用户名</tr>
