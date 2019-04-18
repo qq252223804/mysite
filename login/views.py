@@ -54,6 +54,8 @@ def login(request):
 
 @csrf_exempt
 def submit_check(request):
+    if request.session.get('is_login') != True:
+        return redirect('/login/')
 
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -159,10 +161,10 @@ def ajax(request):
         print(request.POST)
         na=request.POST.get('data')
         # print(na)
-        data = {'status': 0000, 'msg': '请求成功', 'data': [11, 22, 33, 4555, 55]}
+        data = {'status': 2001, 'msg': '请求成功', 'data': [11, 22, 33, 4555, 55]}
         data1={'status': 1000, 'msg': '数据错误', 'data':'null'}
         if na=='0000':
-            print('ok')
+
             return JsonResponse(data)
         else:
             return JsonResponse(data1)
