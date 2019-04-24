@@ -15,7 +15,7 @@ import json
 def login(request):
     # 通过下面的if语句，我们不允许重复登录：重定向
     if request.session.get('is_login')==True:
-        return  redirect('/login/index/')
+        return  render(request,'login/admin.html')
     if request.method == 'POST':
         # 模板中输入的信息变量
         username=request.POST.get('username')
@@ -38,7 +38,7 @@ def login(request):
                     request.session['user_id'] = userinfo.id
                     request.session['user_name'] = userinfo.user
 
-                    return render(request,'login/index.html')
+                    return render(request,'login/admin.html')
 
                 # 密码错误打印 密码错误提示
                 else:
@@ -152,7 +152,10 @@ def check(request):
     # return render(request, 'login/demo.html')
 
 def demo(request):
-    return render(request, 'login/demo.html/')
+    return render(request, 'login/layui_demo.html')
+
+def From(request):
+    return render(request, 'login/from.html')
 
 
 @csrf_exempt

@@ -16,33 +16,33 @@
         <th>是否真实</th>
         <th>设备</th>
     </tr>
- </table>
-    <script>
-        $(function () {
-            $.ajax({
-                url:'{% static 'json/data.json' %}',
-                type:'get',
-                dataType:'json',
-                success:function(data){
-                $.each(data.data,function(index,item){
-                    item.is_true=parseInt(item.is_true)===0? '否':'是';
+</table>
+<script>
+    $(function () {
+        $.ajax({
+            url: '{% static 'json/data.json' %}',
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data.data, function (index, item) {
+                    item.is_true = parseInt(item.is_true) === 0 ? '否' : '是';
                     console.log(item.is_true);
-                    var arr=item.device.split(":");
-                    item.device=arr[1];
+                    var arr = item.device.split(":");
+                    item.device = arr[1];
                     console.log(item.device);
                     var tr;
-                    tr='<td>'+item.name+'</td>'+'<td>'+item.startTime+'</td>'+'<td>'+item.is_true+'</td>'+'<td>'+item.device+'</td>';
-                    $("#table").append('<tr>'+tr+'</tr>')
-         
+                    tr = '<td>' + item.name + '</td>' + '<td>' + item.startTime + '</td>' + '<td>' + item.is_true + '</td>' + '<td>' + item.device + '</td>';
+                    $("#table").append('<tr>' + tr + '</tr>')
+
                 })
             },
-                error:function () {
-                    console.log('failed')
+            error: function () {
+                console.log('failed')
 
-                }
-            })
-            
+            }
         })
-    </script>
+
+    })
+</script>
 </body>
 </html>
