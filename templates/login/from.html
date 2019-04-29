@@ -27,6 +27,7 @@
 </h2>
 <hr>
 <form class="layui-form layui-form-pane" action="">
+    {% csrf_token %}   <!--加入这行 -->
     <h2>
         通过追加 layui-form-pane 的class，来设定表单的方框风格。
         内部结构都一样，值得注意的是 复选框/开关/单选框 这些组合在该风格下需要额外添加 pane属性（否则会看起来比较别扭），如：</h2>
@@ -278,8 +279,8 @@
 
         //监听提交
         form.on('submit(*)', function (data) {
-            console.log(data)
-            alert(JSON.stringify(data.field));
+            console.log(data);
+            layer.msg(JSON.stringify(data.field));
             return false;
         });
     });

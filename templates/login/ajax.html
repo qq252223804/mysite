@@ -12,12 +12,13 @@
         <textarea  id="content" col="400" rows="5" placeholder="显示返回的值"></textarea>
         <script type="text/javascript">
 
+            //执行点击操作 ajax
               function Doajax() {
                   var temp = $('#na').val();
                   console.log(temp);
                   if (temp.length != 0) {
                       $.ajax({
-                          url: "/login/ajax/",
+                          url: "{% url 'login:ajax' %}",
                           type: 'POST',
                           dataType: 'json',
                           //往后台传的值

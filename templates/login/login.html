@@ -22,7 +22,7 @@
             <canvas id="demo-canvas"></canvas>
             <div class="logo_box">
 
-                {% csrf_token %}
+
                 <h3>接口管理平台</h3>
                 <form action="{% url 'login:login' %}" name="login" method="post">
                     {% csrf_token %}   <!--加入这行 -->

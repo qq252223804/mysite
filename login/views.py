@@ -5,6 +5,8 @@ from .models import *  # 导入models文件
 from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+from django.contrib.auth.decorators import login_required
+import hashlib
 
 
 # import json
@@ -12,14 +14,17 @@ import json
 
 
 # Create your views here.
+@csrf_exempt
 def login(request):
     # 通过下面的if语句，我们不允许重复登录：重定向
-    if request.session.get('is_login')==True:
-        return  render(request,'login/admin.html')
+    # if request.session.get('is_login')==True:
+    #     return  render(request,'login/admin.html')
     if request.method == 'POST':
         # 模板中输入的信息变量
         username=request.POST.get('username')
         password=request.POST.get('password')
+
+        pwd = hashlib.sha1(password.encode("utf8")).hexdigest()  # 对数据进行sha1加密
         message="所有字段都必须填写"
         # 确保用户名和密码都不为空
         if username and password:
@@ -32,7 +37,7 @@ def login(request):
                 # userinfo =UserInfo.objects.get(user=username)
 
                 #如果用户名密码正确 跳转首页
-                if userinfo.pwd==password:
+                if userinfo.pwd==pwd:
                     #设置session变量
                     request.session['is_login'] = True
                     request.session['user_id'] = userinfo.id
@@ -54,13 +59,17 @@ def login(request):
 
 @csrf_exempt
 def submit_check(request):
-    if request.session.get('is_login') != True:
-        return redirect('/login/')
+    # if request.session.get('is_login') != True:
+    #     return redirect('/login/')
 
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         message="所有字段都必须填写"
+
+        info = UserInfo()
+        info.user = username
+        info.pawd = password
         if username and password:
             # 将账号去除空格 并传给 username变量
             try:
@@ -72,10 +81,12 @@ def submit_check(request):
                 if userinfo.user==username:
                     message = '该用户已存在'
                 else:
-                    UserInfo.objects.create(user=username, pwd=password)
+                    info.save()
+                    # UserInfo.objects.create(user=username, pwd=password)
                     message='用户提交成功'
             except:
-                UserInfo.objects.create(user=username, pwd=password)
+                # UserInfo.objects.create(user=username, pwd=password)
+                info.save()
                 message = '用户提交成功'
         return render(request, 'login/index.html',locals())
 
@@ -103,6 +114,9 @@ def json2(request):
     data= {'a': 'admin', 'b': '123456'}
     return JsonResponse(data)
 
+
+
+
 def table(request):
     return render(request,'login/table.html')
 
@@ -110,7 +124,7 @@ def table(request):
 
 
 # @csrf_exempt
-def check(request):
+def check_submit(request):
 
     # if request.method == 'POST':
     username = request.POST.get('username')
@@ -148,9 +162,32 @@ def check(request):
 
     return HttpResponse(json.dumps(ret))
 
+
+
     # return HttpResponse(json.dumps(ret))
     # return render(request, 'login/demo.html')
 
+def check_form(request):
+    if request.method == 'POST':
+        print(request.POST)
+        money_min=request.POST.get("price_min")
+
+        money_max=request.POST.get('price_max')
+
+        data = {'status': 200, 'msg': '提交成功', 'data':[money_min,money_max]}
+        data1 = {'status': 400, 'msg': '金额错误,最大值必须大于最小值', 'data': [money_min,money_max]}
+
+        # print(money_min)
+        # print(type(money_min))
+        if int(float(money_min))<=int(float(money_max)):
+            return JsonResponse(data)
+        else:
+            return JsonResponse(data1)
+    else:
+
+        return JsonResponse('请求方法错误')
+
+@login_required
 def demo(request):
     return render(request, 'login/layui_demo.html')
 

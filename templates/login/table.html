@@ -18,6 +18,12 @@
     </tr>
 </table>
 <script>
+    var obj = {
+        '0': '你',
+        '1': '我',
+        '2': '他'
+    };
+   //自执行ajax
     $(function () {
         $.ajax({
             url: '{% static 'json/data.json' %}',
@@ -25,7 +31,7 @@
             dataType: 'json',
             success: function (data) {
                 $.each(data.data, function (index, item) {
-                    item.is_true = parseInt(item.is_true) === 0 ? '否' : '是';
+                    item.is_true = obj[item.is_true];
                     console.log(item.is_true);
                     var arr = item.device.split(":");
                     item.device = arr[1];

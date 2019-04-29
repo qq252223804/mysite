@@ -16,6 +16,5 @@ urlpatterns = [
     url(r'^ajax/$', view02.ajax, name='ajax'),
     url(r'^demo/$', view02.demo, name='demo'),
     url(r'^from/$', view02.From, name='From'),
-
-
+    url(r'^check_form/$', view02.check_form, name='check_form')
 ]

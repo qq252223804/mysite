@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'login',
@@ -142,3 +143,5 @@ TEMPLATE_DIRS = (
 STATICFLIES_DIRS=[
     os.path.join(BASE_DIR, 'login/static'),
 ]
+
+LOGIN_URL = '/login/'  #这个路径需要根据你网站的实际登陆地址来设置
