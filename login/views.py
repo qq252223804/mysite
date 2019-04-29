@@ -17,14 +17,15 @@ import hashlib
 @csrf_exempt
 def login(request):
     # 通过下面的if语句，我们不允许重复登录：重定向
-    # if request.session.get('is_login')==True:
-    #     return  render(request,'login/admin.html')
+    if request.session.get('is_login')==True:
+        return  render(request,'login/admin.html')
     if request.method == 'POST':
         # 模板中输入的信息变量
         username=request.POST.get('username')
         password=request.POST.get('password')
 
         pwd = hashlib.sha1(password.encode("utf8")).hexdigest()  # 对数据进行sha1加密
+        print(pwd)
         message="所有字段都必须填写"
         # 确保用户名和密码都不为空
         if username and password:
@@ -37,7 +38,9 @@ def login(request):
                 # userinfo =UserInfo.objects.get(user=username)
 
                 #如果用户名密码正确 跳转首页
+                # print(userinfo.pwd)
                 if userinfo.pwd==pwd:
+                    # print(userinfo.pwd,pwd)
                     #设置session变量
                     request.session['is_login'] = True
                     request.session['user_id'] = userinfo.id
@@ -65,16 +68,19 @@ def submit_check(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+
         message="所有字段都必须填写"
 
         info = UserInfo()
+        #这里要跟数据库字段一致
         info.user = username
-        info.pawd = password
+        info.pwd = str(password)
         if username and password:
             # 将账号去除空格 并传给 username变量
             try:
                 # get(user)为数据库的字段变量  user是一条查询信息
                 userinfo = get_object_or_404(UserInfo, user=username)
+                # print(userinfo.pwd)
                 # userinfo =UserInfo.objects.get(user=username)
 
                 # 如果用户名相等则提示已存在 否则进行存储
@@ -124,43 +130,43 @@ def table(request):
 
 
 # @csrf_exempt
-def check_submit(request):
-
-    # if request.method == 'POST':
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    ret = {'code': None, 'msg': None}
-    # if username and password:
-    #         print('ok')
-            # 将账号去除空格 并传给 username变量
-    try:
-        userinfo = get_object_or_404(UserInfo, user=username)
-        print('ok')
-        if userinfo.user==username:
-                print('ok')
-                if userinfo.pwd==password:
-
-                    ret['code']=2000
-                    print(ret)
-                    return HttpResponse(json.dumps(ret))
-
-                    # ret['msg']='登录成功'
-
-                else:
-                    ret['code'] = 2001
-
-                    # ret['msg'] = '密码错误'
-
-        else:
-            ret['code'] = 2009
-            print(ret)
-            # ret['msg'] = '用户名不存在'
-
-    except:
-        pass
-
-
-    return HttpResponse(json.dumps(ret))
+# def check_submit(request):
+#
+#     # if request.method == 'POST':
+#     username = request.POST.get('username')
+#     password = request.POST.get('password')
+#     ret = {'code': None, 'msg': None}
+#     # if username and password:
+#     #         print('ok')
+#             # 将账号去除空格 并传给 username变量
+#     try:
+#         userinfo = get_object_or_404(UserInfo, user=username)
+#         print('ok')
+#         if userinfo.user==username:
+#                 print('ok')
+#                 if userinfo.pwd==password:
+#
+#                     ret['code']=2000
+#                     print(ret)
+#                     return HttpResponse(json.dumps(ret))
+#
+#                     # ret['msg']='登录成功'
+#
+#                 else:
+#                     ret['code'] = 2001
+#
+#                     # ret['msg'] = '密码错误'
+#
+#         else:
+#             ret['code'] = 2009
+#             print(ret)
+#             # ret['msg'] = '用户名不存在'
+#
+#     except:
+#         pass
+#
+#
+#     return HttpResponse(json.dumps(ret))
 
 
 
@@ -170,9 +176,13 @@ def check_submit(request):
 def check_form(request):
     if request.method == 'POST':
         print(request.POST)
-        money_min=request.POST.get("price_min")
+        # money_min = request.POST.get("price_min")
 
+        money_min=request.POST.get("price_min")
         money_max=request.POST.get('price_max')
+
+
+
 
         data = {'status': 200, 'msg': '提交成功', 'data':[money_min,money_max]}
         data1 = {'status': 400, 'msg': '金额错误,最大值必须大于最小值', 'data': [money_min,money_max]}
@@ -180,6 +190,9 @@ def check_form(request):
         # print(money_min)
         # print(type(money_min))
         if int(float(money_min))<=int(float(money_max)):
+            user_form.objects.create(
+
+            )
             return JsonResponse(data)
         else:
             return JsonResponse(data1)

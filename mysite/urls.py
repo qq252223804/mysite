@@ -15,10 +15,8 @@ Including another URLconf
 """
 
 from django.conf.urls import url,include
-from django.conf.urls.static import static
 from django.contrib import admin
-from login import views
-from django.conf import settings
+
 #相当于映射各个项目的url
 
 
