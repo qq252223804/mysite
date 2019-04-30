@@ -10,7 +10,7 @@ class UserInfo(models.Model):
     user=models.CharField(max_length=50,unique=True)
     pwd=models.CharField(max_length=50)
 
-
+    #默认返回
     def __str__(self):
         return self.user
     class Meta:
