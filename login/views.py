@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from django.contrib.auth.decorators import login_required
 import hashlib
+import time
 
 
 # import json
@@ -176,22 +177,37 @@ def table(request):
 def check_form(request):
     if request.method == 'POST':
         print(request.POST)
-        # money_min = request.POST.get("price_min")
-
+        order_no = str(time.strftime('%Y%m%d%H%M%S', time.localtime(time.time())))+ str(time.time()).replace('.', '')[-7:]
+        title=request.POST.get("title")
         money_min=request.POST.get("price_min")
         money_max=request.POST.get('price_max')
+        phone=request.POST.get("phone")
+        password=request.POST.get("password")
+        email=request.POST.get("email")
+        city=request.POST.get("city")
+        hobbies=request.POST.get("hobbies")
+        off_on=request.POST.get("on_off")
+        sex=request.POST.get("sex")
+        content=request.POST.get("texts")
+        search_time=request.POST.get("time1")
+        search_times = request.POST.get("times")
 
-
-
-
+        #返回数据
         data = {'status': 200, 'msg': '提交成功', 'data':[money_min,money_max]}
         data1 = {'status': 400, 'msg': '金额错误,最大值必须大于最小值', 'data': [money_min,money_max]}
+
+        #前端的值需转换
+        if off_on=='on':
+            off_on='True'
+        else:
+            off_on='False'
 
         # print(money_min)
         # print(type(money_min))
         if int(float(money_min))<=int(float(money_max)):
-            user_form.objects.create(
-
+            user_form.objects.create(order_no=order_no,title=title,phone=phone,money_min=money_min,
+                money_max=money_max,password=password,email=email,city=city,hobbies=hobbies,off_on=off_on,sex=sex
+                ,content=content,search_time=search_time,search_times=search_times
             )
             return JsonResponse(data)
         else:

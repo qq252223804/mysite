@@ -46,7 +46,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -119,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
-
+#默认为en-us
 LANGUAGE_CODE = 'zh-Hans'# en-us 英文| zh-Hans 中文
 
 TIME_ZONE = 'Asia/Shanghai'  #时间
@@ -128,7 +128,9 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+
+#默认为Ture
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

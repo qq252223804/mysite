@@ -7,3 +7,7 @@
 #
 #         print(pwd1)
 # save('123')
+import uuid
+uid=uuid.uuid1()
+suid = ''.join(str(uid).split('-'))
+print(suid)

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自动化测试-运维平台</title>
+
+    {#  注意引入文件的方式  #}
+    {% load staticfiles %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="{% static 'layui-v2.4.3/layui/css/layui.css' %}" media="all">
+
+    {#  设置网页标题图标  #}
+    <link rel="icon" type="image/x-icon" href="/static/media/icon.ico" />
+
+    {#  设置js文件  #}
+    <script src="{% static "layui-v2.4.3/layui/layui.js" %}"></script>
+
+</head>
+<body>
+    {% block content %}
+
+    {% endblock %}
+</body>
+</html>
