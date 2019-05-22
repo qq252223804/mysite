@@ -62,7 +62,7 @@ def login(request):
     return render(request,'login/login.html')
 
 @csrf_exempt
-def submit_check(request):
+def submit_login(request):
     # if request.session.get('is_login') != True:
     #     return redirect('/login/')
 
@@ -174,7 +174,7 @@ def table(request):
     # return HttpResponse(json.dumps(ret))
     # return render(request, 'login/demo.html')
 
-def check_form(request):
+def submit_form(request):
     if request.method == 'POST':
         print(request.POST)
         order_no = str(time.strftime('%Y%m%d%H%M%S', time.localtime(time.time())))+ str(time.time()).replace('.', '')[-7:]
@@ -216,12 +216,33 @@ def check_form(request):
 
         return JsonResponse('请求方法错误')
 
-@login_required
+
+
+
+
+def user_table(request):
+
+    # 同样支持链式条件过滤查询，如objects.values().filter(book_name=’test’)
+    # 支持切片查询，如objects.values()[:10]
+    # 支持字段过滤查询，如我只想查询id和book_name
+    # 这两个字段，只需这样写
+    data=user_form.objects.values().order_by('-id')[:10]
+    content={}
+    content['list']=list(data)
+    content['code']=200
+    content['msg']='请求成功'
+    # print(len(content['list']))
+    return JsonResponse(content)
+
+
+
+# @login_required
 def demo(request):
     return render(request, 'login/layui_demo.html')
 
-def From(request):
-    return render(request, 'login/from.html')
+
+def Active_tab(request):
+    return render(request, 'login/Active_tab.html')
 
 
 @csrf_exempt
@@ -245,6 +266,8 @@ def ajax(request):
 
     else:
         return render(request,'login/ajax.html')
+
+
 
 
 

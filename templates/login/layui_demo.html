@@ -1,217 +1,242 @@
-<!DOCTYPE html>
-{% load staticfiles %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>layui_demo</title>
-    <link rel="stylesheet" href="{% static 'layui-v2.4.3/layui/css/layui.css' %}" media="all">
 
-    <script src="{% static "layui-v2.4.3/layui/layui.js" %}"></script>
-</head>
-<body>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
+{% extends "login/base.html" %}
+{% block content %}
+    <body class="layui-layout-body">
+    <div class="layui-body">
+    <div class="layui-layout layui-layout-admin">
+            <!-- 内容主体区域 -->
+            <div style="padding: 15px;">内容主体区域
+                <form class="layui-form layui-form-pane" lay-filter="first">
 
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">输入框title</label>
+                        <div class="layui-input-inline" style="width: 600px;">
+                            <input type="text" name="title" lay-verify="required|title" placeholder="请输入标题"
+                                   autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <div class="layui-word-aux">标题长度大于7位</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">范围money</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" name="price_min" lay-verify="required|money" placeholder="最小金额"
+                                   autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <div class="layui-form-mid">-</div>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" name="price_max" lay-verify="required|money" placeholder="最大金额"
+                                   autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <div class="layui-word-aux">金额必须为小数保留两位</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">手机号phone</label>
+                        <div class="layui-input-inline" style="width: 300px;">
+                            <input type="text" name="phone" lay-verify="required|phone" placeholder="请输入手机号"
+                                   autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">11位手机号</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密码框pawd</label>
+                        <div class="layui-input-inline" style="width: 300px;">
+                            <input type="password" name="password" lay-verify="required|pass" placeholder="请输入密码"
+                                   autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">六位以上数字加字母密码</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">邮箱email</label>
+                        <div class="layui-input-inline" style="width: 300px;">
+                            <input type="text" name="email" lay-verify="required|email" placeholder="请输入邮箱"
+                                   autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">邮箱</div>
+                    </div>
 
-<form class="layui-form layui-form-pane" lay-filter="first" action="{% url 'login:check_form' %}" method="post">
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">输入title</label>
-        <div class="layui-input-inline" style="width: 600px;">
-            <input type="text" name="title" lay-verify="required|title" placeholder="请输入标题" autocomplete="off"
-                   class="layui-input">
-        </div>
-        <div class="layui-word-aux">标题长度大于7位</div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">范围money</label>
-        <div class="layui-input-inline" style="width: 100px;">
-            <input type="text" name="price_min" lay-verify="required|money" placeholder="最小金额" autocomplete="off"
-                   class="layui-input">
-        </div>
-        <div class="layui-form-mid">-</div>
-        <div class="layui-input-inline" style="width: 100px;">
-            <input type="text" name="price_max" lay-verify="required|money" placeholder="最大金额" autocomplete="off"
-                   class="layui-input">
-        </div>
-        <div class="layui-word-aux">金额必须为小数保留两位</div>
-    </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">密码框password</label>
-            <div class="layui-input-inline" style="width: 300px;">
-                <input type="password" name="password" lay-verify="required|pass" placeholder="请输入密码" autocomplete="off"
-                       class="layui-input">
-            </div>
-            <div class="layui-form-mid layui-word-aux">六位以上数字加字母密码</div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">选择框city</label>
-            <div class="layui-input-block">
-                <select name="city" lay-verify="required" lay-search>
-                    <option value=""></option>
-                    <option id="1" value="北京">北京</option>
-                    <option id="2" value="上海">上海</option>
-                    <option id="3" value="广州">广州</option>
-                    <option id="4" value="深圳">深圳</option>
-                    <option id="5" value="杭州">杭州</option>
-                </select>
-            </div>
-        </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">复选框hobbies</label>
-        <div class="layui-input-block">
-            <input type="checkbox" name="hobbies" value="写作" title="写作">
-            <input type="checkbox" name="hobbies" value="阅读" title="阅读" checked>
-            <input type="checkbox" name="hobbies" value="发呆" title="发呆">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">开关</label>
-        <div class="layui-input-block">
-            <input type="checkbox" checked name="open" lay-skin="switch" lay-text="ON|OFF">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">单选框sex</label>
-        <div class="layui-input-block">
-            <input type="radio" name="sex" value="男" title="男">
-            <input type="radio" name="sex" value="女" title="女" checked>
-            <input type="radio" name="sex" value="" title="中性" disabled>
-        </div>
-    </div>
-        <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">文本域text</label>
-            <div class="layui-input-block">
-                <textarea name="desc" placeholder="请输入15字以上内容" class="layui-textarea"
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">选择框city</label>
+                        <div class="layui-input-block">
+                            <select name="city" lay-verify="required" lay-search>
+                                <option value=""></option>
+                                <option id="1" value="北京">北京</option>
+                                <option id="2" value="上海">上海</option>
+                                <option id="3" value="广州">广州</option>
+                                <option id="4" value="深圳">深圳</option>
+                                <option id="5" value="杭州">杭州</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">复选框</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" name="hobbies" value="写作" title="写作">
+                            <input type="checkbox" name="hobbies" value="阅读" title="阅读" checked>
+                            <input type="checkbox" name="hobbies" value="发呆" title="发呆">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">开关on</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" checked name="on_off" lay-skin="switch" lay-text="ON|OFF">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">单选框sex</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="sex" value="男" title="男">
+                            <input type="radio" name="sex" value="女" title="女" checked>
+                            <input type="radio" name="sex" value="" title="中性" disabled>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">文本域text</label>
+                        <div class="layui-input-block">
+                <textarea name="texts" placeholder="请输入15字以上内容" class="layui-textarea"
                           lay-verify="required|texts"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width: 150px;">按日期搜索time</label>
+                            <div class="layui-input-inline">
+                                <input type="text" class="layui-input" id="time1" name="time1" placeholder="yyyy-MM-dd">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width: 150px;">按范围搜索times</label>
+                            <div class="layui-input-inline">
+                                <input type="text" class="layui-input" id="times" name="times" placeholder=" - ">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="*">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+
+                    {% if message %}
+                        <div class="alert alert-warning">{{ message }}
+                        </div>
+                    {% endif %}
+
+                </form>
+
+{#                <script src="{% static "layui-v2.4.3/layui/layui.js" %}"></script>#}
+                <script>
+                    layui.use(['element', 'form', 'layer', 'jquery'], function () {
+                        var $ = layui.jquery;
+                        var form = layui.form;
+                        var layer = layui.layer;
+
+//注意：导航 依赖 element 模块，否则无法进行功能性操作
+                        var element = layui.element;
+
+                        //时间控件
+                        layui.use('laydate', function () {
+                            var laydate = layui.laydate;
+                            //按日期搜索
+                            laydate.render({
+                                elem: '#time1'
+                                , min: -7
+                                , max: 7
+                                , theme: 'molv'
+                            });
+                            //按范围搜索
+                            laydate.render({
+                                elem: '#times'
+                                , theme: 'molv'
+                                , range: true
+                            });
+                        });
+
+                        //自定义验证规则
+                        form.verify({
+                            title: function (value) {
+                                if (value.length < 7) {
+                                    return '标题也太短了吧';
+
+                                }
+                            },
+                            texts: function (value) {
+                                if (value.length < 10) {
+                                    return '文本框最少15字';
+                                }
+                            },
+                            pass: [/^[A-Za-z0-9]{6,}$/, '六位以上数字加字母密码'
+
+                            ],
+
+                            money: [
+                                /^\d+\.\b\d{2}\b$/, '金额必须为小数保留两位'
+                            ]
+                        })
+                        ;
+
+                        //初始赋值
+                        form.val('first', {
+                            'title': '测试/初始值'
+                            {#, 'desc': '初始9个实需10字'#}
+
+                        });
+
+
+                        //监听提交
+
+                        form.on('submit(*)', function (data) {
+                            $.ajax({
+                                url: "{% url 'login:submit_form' %}",
+                                type: 'post',
+                                dataType: 'json',
+                                data: $(data.form).serialize(),
+                                {#data: JSON.stringify(data.field),#}
+
+                                success: function (arg) {
+                                    if (arg.status === 200) {
+                                        layer.msg(arg.msg);
+                                        window.location.reload()
+                                    } else {
+                                        layer.msg(arg.msg)
+                                    }
+                                },
+                                error: function (arg) {
+                                    console.log(arg);
+                                    layer.msg("系统错误")
+                                }
+                            });
+                            //ajax 提交
+
+                            console.log(data);
+                            {#layer.msg(JSON.stringify(data.field));#}
+                            return false;
+                        });
+
+
+                    });
+
+
+                </script>
+
+
             </div>
         </div>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">按日期搜索time</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" id="time1" name="time1" placeholder="yyyy-MM-dd"
-                           lay-verify="required">
-                </div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">按范围搜索times</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" id="times" name="times" placeholder=" - "
-                           lay-verify="required">
-                </div>
-            </div>
-        </div>
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn" lay-submit lay-filter="*">立即提交</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+
+        <div class="layui-footer">
+            <!-- 底部固定区域 -->
+            © layui.com - 底部固定区域
         </div>
     </div>
-    {#   加入了message插件#}
-    {#    {% if message %}#}
-    {#        <div class="alert alert-warning">{{ message }}#}
-    {#        </div>#}
-    {#    {% endif %}#}
-
-</form>
+    </body>
 
 
-<script src="{% static "layui-v2.4.3/layui/layui.js" %}"></script>
-<script>
-    layui.use(['form', 'layer','jquery'], function () {
-        var $ = layui.jquery;
-        var form = layui.form;
-        var layer = layui.layer;
-
-
-        //时间控件
-        layui.use('laydate', function () {
-            var laydate = layui.laydate;
-            //按日期搜索
-            laydate.render({
-                elem: '#time1'
-                , min: -7
-                , max: 7
-                , theme: 'molv'
-            });
-            //按范围搜索
-            laydate.render({
-                elem: '#times'
-                , theme: 'molv'
-                , range: true
-            });
-        });
-
-        //自定义验证规则
-        form.verify({
-            title: function (value) {
-                if (value.length < 7) {
-                    return '标题也太短了吧';
-
-                }
-            },
-            texts: function (value) {
-                if (value.length < 10) {
-                    return '字数过少';
-                }
-            },
-            pass: [/^[A-Za-z0-9]{6,}$/, '六位以上数字加字母密码'
-
-            ],
-            {#, pass: [/(.+){6,}$/, '密码必须6到12位']#}
-            money: [
-                /^\d+\.\b\d{2}\b$/, '金额必须为小数保留两位'
-            ]
-        });
-
-        //初始赋值
-        form.val('first', {
-            'title': '测试/初始值'
-            , 'desc': '初始9个实需10字'
-
-        });
-
-
-        //监听提交
-
-        form.on('submit(*)', function (data) {
-            $.ajax({
-                url: "{% url 'login:check_form' %}",
-                type: 'post',
-                dataType: 'json',
-                data: $(data.form).serialize(),
-                {#data: JSON.stringify(data.field),#}
-
-
-                success: function (arg) {
-                    if(arg.code===200){
-                        layer.msg(arg.msg);
-                    }
-                    else {layer.msg(arg.msg)}
-                },
-                error: function (arg) {
-                    console.log(arg);
-                    layer.msg("系统错误")
-                }
-            });
-            //ajax 提交
-
-            console.log(data);
-            {#layer.msg(JSON.stringify(data.field));#}
-            return false;
-        });
-
-
-    });
-
-
-</script>
-</body>
-</html>
+{% endblock %}

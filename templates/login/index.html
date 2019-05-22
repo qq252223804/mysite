@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>用户输入：</h1>
-    <form action="{% url 'login:submit_check' %}" method="post">
+    <form action="{% url 'login:submit_login' %}" method="post">
         {% csrf_token %}   <!--加入这行 -->
         用户名：<input type="text" name="username" id="name" placeholder="请输入名字" onblur="formcheck()" ><br />
         密码：<input type="password"  name="password"  placeholder="请输入密码" onblur="formcheck()"><br />

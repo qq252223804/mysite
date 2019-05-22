@@ -36,6 +36,7 @@ class user_form(models.Model):
     money_min=models.DecimalField ('最小金额', max_digits=10,decimal_places=2)
     money_max=models.DecimalField ('最大金额', max_digits=10,decimal_places=2)
     password = models.CharField('密码', max_length=50)
+
     email = models.EmailField('邮箱', null=True)
     city=models.CharField('城市', max_length=50)
     hobbies=models.CharField('爱好', max_length=50,null=True)
@@ -50,3 +51,7 @@ class user_form(models.Model):
     # DateTimeField和DateField和TimeField存储的内容分别对应着datetime(), date(), time()三个对象。
     search_time=models.DateField('按范围搜索日期', auto_now=False, null=True)
     search_times = models.CharField('按范围搜索日期',  max_length=50,null=True)
+
+    def save(self, *args, **kwargs):
+        self.password = hashlib.sha1(self.password.encode("utf8")).hexdigest()
+        super(user_form, self).save(*args, **kwargs)
